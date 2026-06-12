@@ -147,11 +147,17 @@ uvicorn main:app --reload
 **Environment variables required:**
 
 SUPABASE_URL=your_supabase_project_url
+
 SUPABASE_SERVICE_KEY=your_supabase_service_role_key
+
 ANTHROPIC_API_KEY=your_anthropic_api_key
+
 UIPATH_BASE_URL=https://staging.uipath.com
+
 UIPATH_ACCOUNT=your_account_name
+
 UIPATH_TENANT=your_tenant_name
+
 UIPATH_TOKEN=your_personal_access_token
 
 ### Database
