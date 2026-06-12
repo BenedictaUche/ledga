@@ -1,0 +1,107 @@
+.shop-card {
+  display: block;
+  background: #141414;
+  border: 1px solid #1e1e1e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: #00c896;
+    transform: translateY(-2px);
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.shop-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.shop-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f0f0f0;
+}
+
+.owner-name {
+  font-size: 0.75rem;
+  color: #555;
+}
+
+.status-pill {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &.open { background: rgba(0, 200, 150, 0.15); color: #00c896; }
+  &.exception { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; }
+  &.closed { background: rgba(255,255,255,0.05); color: #555; }
+  &.inactive { background: rgba(255,255,255,0.05); color: #444; }
+}
+
+.card-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .label {
+    font-size: 0.65rem;
+    color: #444;
+    text-transform: uppercase;
+  }
+
+  .value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f0f0f0;
+
+    &.profit { color: #00c896; }
+    &.credit { color: #f0a500; }
+  }
+}
+
+.no-activity {
+  font-size: 0.8rem;
+  color: #444;
+  margin: 0 0 1rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1a1a1a;
+}
+
+.business-type {
+  font-size: 0.7rem;
+  color: #444;
+  text-transform: capitalize;
+}
+
+.view-link {
+  font-size: 0.75rem;
+  color: #00c896;
+}

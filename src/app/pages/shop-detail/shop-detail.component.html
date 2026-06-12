@@ -1,0 +1,144 @@
+<div class="detail-page" *ngIf="!loading; else loadingTpl">
+
+  <!-- Nav -->
+  <header class="header">
+    <a routerLink="/" class="back-btn">← Back</a>
+    <div class="header-center">
+      <h1 class="shop-name">{{ shop?.name }}</h1>
+      <span class="owner">{{ shop?.owner_name }}</span>
+    </div>
+    <span class="business-type">{{ shop?.business_type }}</span>
+  </header>
+
+  <div class="content">
+
+    <!-- Summary metrics -->
+    <div class="metrics" *ngIf="summary; else noSummary">
+      <div class="metric-card">
+        <span class="label">Total sales</span>
+        <span class="value">₦{{ summary.total_sales | number:'1.0-0' }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Total profit</span>
+        <span class="value profit">₦{{ summary.total_profit | number:'1.0-0' }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Profit margin</span>
+        <span class="value profit">{{ profitMargin }}%</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Credit given</span>
+        <span class="value credit">₦{{ summary.total_credit_given | number:'1.0-0' }}</span>
+      </div>
+    </div>
+
+    <ng-template #noSummary>
+      <div class="no-summary">No activity recorded today yet.</div>
+    </ng-template>
+
+    <!-- Message input -->
+    <div class="message-box">
+      <h2 class="section-title">Record transaction</h2>
+      <p class="message-hint">
+        Type what the owner sent — e.g. "sold para x20, zobo x5, Mama Chioma took 3500 credit"
+      </p>
+      <div class="input-row">
+        <input
+          type="text"
+          class="message-input"
+          [(ngModel)]="message"
+          placeholder="Enter owner message..."
+          (keyup.enter)="sendMessage()"
+          [disabled]="sending" />
+        <button
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="sending || !message.trim()">
+          {{ sending ? 'Processing...' : 'Send' }}
+        </button>
+      </div>
+
+      <!-- Result feedback -->
+      <div class="send-result" *ngIf="sendResult"
+        [ngClass]="sendResult.status === 'parsed' ? 'success' : sendResult.status === 'ambiguous' ? 'warning' : 'error'">
+        <span *ngIf="sendResult.status === 'parsed'">
+          ✓ {{ sendResult.transactions_recorded }} transaction(s) recorded.
+          <span *ngIf="sendResult.exceptions_raised > 0">{{ sendResult.exceptions_raised }} exception(s) flagged.</span>
+        </span>
+        <span *ngIf="sendResult.status === 'ambiguous'">
+          ⚠ Recorded with ambiguity: {{ sendResult.ambiguity_reason }}
+        </span>
+        <span *ngIf="sendResult.status === 'failed' || sendResult.status === 'error'">
+          ✕ {{ sendResult.message }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab" [class.active]="activeTab === 'transactions'"
+        (click)="activeTab = 'transactions'">
+        Transactions ({{ transactions.length }})
+      </button>
+      <button class="tab" [class.active]="activeTab === 'credit'"
+        (click)="activeTab = 'credit'">
+        Credit ledger ({{ creditLedger.length }})
+      </button>
+    </div>
+
+    <!-- Transactions -->
+    <div *ngIf="activeTab === 'transactions'">
+      <div *ngIf="transactions.length === 0" class="empty">No transactions today yet.</div>
+      <div class="table-wrap" *ngIf="transactions.length > 0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Type</th>
+              <th>Qty</th>
+              <th>Amount</th>
+              <th>Profit</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tx of transactions"
+              [ngClass]="tx.is_credit ? 'credit-row' : ''">
+              <td>{{ tx.products?.name || tx.product_id || '—' }}</td>
+              <td>
+                <span class="type-pill" [ngClass]="tx.transaction_type">
+                  {{ tx.transaction_type }}
+                </span>
+              </td>
+              <td>{{ tx.quantity }}</td>
+              <td>₦{{ tx.total_amount | number:'1.0-0' }}</td>
+              <td [class.profit]="tx.profit > 0">
+                {{ tx.profit > 0 ? '₦' + (tx.profit | number:'1.0-0') : '—' }}
+              </td>
+              <td class="time">{{ tx.created_at | date:'HH:mm' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Credit ledger -->
+    <div *ngIf="activeTab === 'credit'">
+      <div *ngIf="creditLedger.length === 0" class="empty">No outstanding credit.</div>
+      <div class="credit-list" *ngIf="creditLedger.length > 0">
+        <div class="credit-item" *ngFor="let customer of creditLedger">
+          <div class="customer-info">
+            <span class="customer-name">{{ customer.name }}</span>
+            <span class="customer-phone">{{ customer.phone || 'No phone' }}</span>
+          </div>
+          <span class="credit-amount">₦{{ customer.total_credit_owed | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Loading...</div>
+</ng-template>

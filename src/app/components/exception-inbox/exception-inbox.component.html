@@ -1,0 +1,26 @@
+<div class="inbox">
+  <div class="exception-item" *ngFor="let exc of exceptions">
+    <div class="exc-left">
+      <span class="severity-dot" [ngClass]="severityClass(exc.severity)"></span>
+      <div class="exc-info">
+        <span class="exc-type">{{ typeLabel(exc.exception_type) }}</span>
+        <span class="exc-shop">{{ exc.shops?.name }}</span>
+        <span class="exc-desc">{{ exc.description }}</span>
+      </div>
+    </div>
+    <div class="exc-actions">
+      <button
+        class="btn resolve"
+        (click)="resolve(exc.id, 'resolved')"
+        [disabled]="resolving[exc.id]">
+        Resolve
+      </button>
+      <button
+        class="btn dismiss"
+        (click)="resolve(exc.id, 'dismissed')"
+        [disabled]="resolving[exc.id]">
+        Dismiss
+      </button>
+    </div>
+  </div>
+</div>

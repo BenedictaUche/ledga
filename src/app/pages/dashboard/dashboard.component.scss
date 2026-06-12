@@ -1,0 +1,136 @@
+.dashboard {
+  min-height: 100vh;
+  background: #0f0f0f;
+  color: #f0f0f0;
+  font-family: 'Inter', sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid #1e1e1e;
+  background: #111;
+
+  .header-left {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00c896;
+    margin: 0;
+  }
+
+  .tagline {
+    font-size: 0.8rem;
+    color: #555;
+  }
+
+  .operator-badge {
+    font-size: 0.75rem;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: #888;
+  }
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric-card {
+  background: #141414;
+  border: 1px solid #1e1e1e;
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .metric-label {
+    font-size: 0.75rem;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .metric-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #f0f0f0;
+
+    &.profit { color: #00c896; }
+    &.danger { color: #ff4d4d; }
+  }
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 600;
+
+  &.danger {
+    background: rgba(255, 77, 77, 0.15);
+    color: #ff4d4d;
+  }
+}
+
+.shops-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #555;
+  font-size: 0.9rem;
+}
