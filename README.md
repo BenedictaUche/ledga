@@ -86,26 +86,19 @@ coding agents throughout development:
 ## Architecture
 
 Shop Owner (plain text message)
-
-↓
+        ↓
 Operator Dashboard (Angular)
-
-↓
+        ↓
 Python FastAPI Backend
-
-↓
+        ↓
 LLM Parser (Claude) → Structured JSON
-
-↓
+        ↓
 Supabase (transactions, inventory, credit ledger)
-
-↓
+        ↓
 Exception Detection → UiPath Action Center (human checkpoint)
-
-↓
+        ↓
 UiPath Maestro BPMN (orchestrates full daily flow)
-
-↓
+        ↓
 End-of-Day Summary → Shop Owner
 
 ---
