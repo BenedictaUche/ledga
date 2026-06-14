@@ -1,37 +1,42 @@
 .inbox {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .exception-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #141414;
-  border: 1px solid #1e1e1e;
-  border-radius: 10px;
-  padding: 1rem 1.25rem;
-  gap: 1rem;
+  background: var(--bg-elevated);
+  padding: 14px 16px;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+
+  &:last-child { border-bottom: none; }
+  &:hover { background: var(--bg-hover); }
 }
 
 .exc-left {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
   flex: 1;
 }
 
 .severity-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  margin-top: 5px;
+  margin-top: 4px;
   flex-shrink: 0;
 
-  &.high { background: #ff4d4d; }
-  &.medium { background: #f0a500; }
-  &.low { background: #555; }
+  &.high { background: var(--danger); }
+  &.medium { background: var(--warning); }
+  &.low { background: var(--text-tertiary); }
 }
 
 .exc-info {
@@ -41,51 +46,58 @@
 }
 
 .exc-type {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .exc-shop {
-  font-size: 0.75rem;
-  color: #00c896;
+  font-size: 11px;
+  color: var(--accent);
 }
 
 .exc-desc {
-  font-size: 0.75rem;
-  color: #555;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 1px;
 }
 
 .exc-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .btn {
-  font-size: 0.75rem;
-  padding: 6px 14px;
-  border-radius: 6px;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
   border: 1px solid transparent;
   cursor: pointer;
   font-weight: 500;
-  transition: opacity 0.2s;
+  transition: all 0.15s;
 
-  &:disabled { opacity: 0.4; cursor: not-allowed; }
+  &:disabled { opacity: 0.3; cursor: not-allowed; }
 
   &.resolve {
-    background: rgba(0, 200, 150, 0.1);
-    border-color: #00c896;
-    color: #00c896;
+    background: var(--accent-subtle);
+    border-color: transparent;
+    color: var(--accent);
 
-    &:hover:not(:disabled) { background: rgba(0, 200, 150, 0.2); }
+    &:hover:not(:disabled) {
+      background: var(--accent);
+      color: #fff;
+    }
   }
 
   &.dismiss {
     background: transparent;
-    border-color: #2a2a2a;
-    color: #555;
+    border-color: var(--border-strong);
+    color: var(--text-secondary);
 
-    &:hover:not(:disabled) { border-color: #444; color: #888; }
+    &:hover:not(:disabled) {
+      border-color: var(--text-secondary);
+      color: var(--text-primary);
+    }
   }
 }

@@ -3,6 +3,12 @@
   <!-- Nav -->
   <header class="header">
     <a routerLink="/" class="back-btn">← Back</a>
+    <a [routerLink]="['/shop', shopId, 'inventory']" class="inventory-link">
+  View Inventory →
+</a>
+<a [routerLink]="['/shop', shopId, 'products']" class="inventory-link">
+  Manage Products →
+</a>
     <div class="header-center">
       <h1 class="shop-name">{{ shop?.name }}</h1>
       <span class="owner">{{ shop?.owner_name }}</span>
@@ -73,6 +79,42 @@
         </span>
       </div>
     </div>
+
+    <!-- End of Day -->
+<div class="eod-box" *ngIf="summary?.status !== 'closed'">
+  <div class="eod-left">
+    <span class="eod-title">End of Day</span>
+    <span class="eod-hint">Close this shop's business day and dispatch summary to owner</span>
+  </div>
+  <button class="eod-btn" (click)="closeDay()" [disabled]="closingDay">
+    {{ closingDay ? 'Closing...' : 'Close Day & Send Summary' }}
+  </button>
+</div>
+
+<!-- Day closed summary -->
+<div class="closed-summary" *ngIf="dayClosedSummary">
+  <h3 class="closed-title">✓ Day Closed — Summary Dispatched</h3>
+  <div class="closed-metrics">
+    <div class="closed-metric">
+      <span class="label">Total Sales</span>
+      <span class="value">₦{{ dayClosedSummary.total_sales | number:'1.0-0' }}</span>
+    </div>
+    <div class="closed-metric">
+      <span class="label">Total Profit</span>
+      <span class="value profit">₦{{ dayClosedSummary.total_profit | number:'1.0-0' }}</span>
+    </div>
+    <div class="closed-metric">
+      <span class="label">Credit Given</span>
+      <span class="value credit">₦{{ dayClosedSummary.total_credit_given | number:'1.0-0' }}</span>
+    </div>
+  </div>
+  <div class="credit-outstanding" *ngIf="dayClosedSummary.outstanding_credit?.length > 0">
+    <span class="label">Outstanding Credit:</span>
+    <span *ngFor="let c of dayClosedSummary.outstanding_credit" class="credit-entry">
+      {{ c.customer }} — ₦{{ c.amount | number:'1.0-0' }}
+    </span>
+  </div>
+</div>
 
     <!-- Tabs -->
     <div class="tabs">

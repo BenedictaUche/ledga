@@ -1,0 +1,79 @@
+<div class="inventory-page" *ngIf="!loading; else loadingTpl">
+
+  <header class="header">
+    <a [routerLink]="['/shop', shopId]" class="back-btn">← Back</a>
+    <div class="header-center">
+      <h1 class="shop-name">{{ shop?.name }}</h1>
+      <span class="owner">Inventory</span>
+    </div>
+    <span class="business-type">{{ shop?.business_type }}</span>
+  </header>
+
+  <div class="content">
+
+    <!-- Stock summary -->
+    <div class="metrics">
+      <div class="metric-card">
+        <span class="label">Total products</span>
+        <span class="value">{{ inventory.length }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Out of stock</span>
+        <span class="value danger">{{ criticalCount }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Low stock</span>
+        <span class="value warning">{{ lowCount }}</span>
+      </div>
+      <div class="metric-card">
+        <span class="label">Healthy</span>
+        <span class="value ok">{{ inventory.length - criticalCount - lowCount }}</span>
+      </div>
+    </div>
+
+    <!-- Inventory list -->
+    <div *ngIf="inventory.length === 0" class="empty">
+  No inventory data yet. Products appear automatically as transactions are recorded.
+</div>
+<div class="inventory-list" *ngIf="inventory.length > 0">
+      <div class="inventory-item" *ngFor="let item of inventory"
+        [ngClass]="stockStatus(item)">
+        <div class="item-left">
+          <div class="item-info">
+            <span class="product-name">{{ item.products?.name }}</span>
+            <span class="product-unit">per {{ item.products?.unit || 'unit' }}</span>
+          </div>
+          <div class="stock-bar-wrap">
+            <div class="stock-bar">
+              <div class="stock-fill"
+                [style.width.%]="stockWidth(item)"
+                [ngClass]="stockStatus(item)">
+              </div>
+            </div>
+            <span class="qty">{{ item.quantity }} remaining</span>
+          </div>
+        </div>
+        <div class="item-right">
+          <span class="status-pill" [ngClass]="stockStatus(item)">
+            {{ stockLabel(item) }}
+          </span>
+          <div class="prices">
+            <span class="price-row">
+              <span class="price-label">Cost</span>
+              <span class="price-value">₦{{ item.products?.cost_price | number:'1.0-0' }}</span>
+            </span>
+            <span class="price-row">
+              <span class="price-label">Selling</span>
+              <span class="price-value green">₦{{ item.products?.selling_price | number:'1.0-0' }}</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Loading inventory...</div>
+</ng-template>

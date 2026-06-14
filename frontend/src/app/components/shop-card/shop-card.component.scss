@@ -1,17 +1,15 @@
 .shop-card {
   display: block;
-  background: #141414;
-  border: 1px solid #1e1e1e;
-  border-radius: 12px;
-  padding: 1.25rem;
+  background: var(--bg-elevated);
+  padding: 20px;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: background 0.15s;
   cursor: pointer;
+  position: relative;
 
   &:hover {
-    border-color: #00c896;
-    transform: translateY(-2px);
+    background: var(--bg-hover);
   }
 }
 
@@ -19,89 +17,106 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .shop-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
 .shop-name {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #f0f0f0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .owner-name {
-  font-size: 0.75rem;
-  color: #555;
+  font-size: 11px;
+  color: var(--text-secondary);
 }
 
 .status-pill {
-  font-size: 0.65rem;
-  font-weight: 600;
-  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
   border-radius: 20px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 
-  &.open { background: rgba(0, 200, 150, 0.15); color: #00c896; }
-  &.exception { background: rgba(255, 77, 77, 0.15); color: #ff4d4d; }
-  &.closed { background: rgba(255,255,255,0.05); color: #555; }
-  &.inactive { background: rgba(255,255,255,0.05); color: #444; }
+  &.open {
+    background: var(--success-subtle);
+    color: var(--success);
+  }
+  &.exception {
+    background: var(--danger-subtle);
+    color: var(--danger);
+  }
+  &.closed {
+    background: var(--bg-overlay);
+    color: var(--text-tertiary);
+  }
+  &.inactive {
+    background: var(--bg-overlay);
+    color: var(--text-tertiary);
+  }
 }
 
 .card-metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .metric {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 
   .label {
-    font-size: 0.65rem;
-    color: #444;
+    font-size: 10px;
+    color: var(--text-tertiary);
     text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .value {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #f0f0f0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
 
-    &.profit { color: #00c896; }
-    &.credit { color: #f0a500; }
+    &.profit { color: var(--success); }
+    &.credit { color: var(--warning); }
   }
 }
 
 .no-activity {
-  font-size: 0.8rem;
-  color: #444;
-  margin: 0 0 1rem;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin: 0 0 16px;
 }
 
 .card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 0.75rem;
-  border-top: 1px solid #1a1a1a;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
 }
 
 .business-type {
-  font-size: 0.7rem;
-  color: #444;
+  font-size: 11px;
+  color: var(--text-tertiary);
   text-transform: capitalize;
 }
 
 .view-link {
-  font-size: 0.75rem;
-  color: #00c896;
+  font-size: 11px;
+  color: var(--accent);
+  transition: color 0.15s;
+
+  &:hover { color: var(--accent-hover); }
 }

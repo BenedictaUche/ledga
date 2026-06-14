@@ -26,4 +26,10 @@ export class ApiService {
       })
     );
   }
+
+  async closeBusinessDay(shopId: string) {
+    return firstValueFrom(
+      this.http.post<any>(`${this.base}/shops/${shopId}/close-day`, {})
+    );
+  }
 }

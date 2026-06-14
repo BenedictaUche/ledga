@@ -1,0 +1,244 @@
+.inventory-page {
+  min-height: 100vh;
+  background: var(--bg-base);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 48px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-base);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back-btn {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  min-width: 80px;
+  transition: color 0.15s;
+  &:hover { color: var(--text-primary); }
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.shop-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.owner {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.business-type {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: capitalize;
+  min-width: 80px;
+  text-align: right;
+}
+
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 24px;
+
+  @media (max-width: 700px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metric-card {
+  background: var(--bg-elevated);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .label {
+    font-size: 10px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    &.danger { color: var(--danger); }
+    &.warning { color: var(--warning); }
+    &.ok { color: var(--success); }
+  }
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.inventory-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-elevated);
+  padding: 16px 20px;
+  gap: 24px;
+  transition: background 0.15s;
+
+  &:hover { background: var(--bg-hover); }
+  &.critical { border-left: 2px solid var(--danger); }
+  &.low { border-left: 2px solid var(--warning); }
+  &.ok { border-left: 2px solid transparent; }
+}
+
+.item-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.product-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.product-unit {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.stock-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stock-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border-strong);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stock-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+
+  &.ok { background: var(--success); }
+  &.low { background: var(--warning); }
+  &.critical { background: var(--danger); }
+}
+
+.qty {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  min-width: 80px;
+  text-align: right;
+}
+
+.item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.status-pill {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &.ok { background: var(--success-subtle); color: var(--success); }
+  &.low { background: var(--warning-subtle); color: var(--warning); }
+  &.critical { background: var(--danger-subtle); color: var(--danger); }
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.price-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.price-label {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.price-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  &.green { color: var(--success); }
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}

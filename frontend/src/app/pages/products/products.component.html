@@ -1,0 +1,222 @@
+<div class="products-page" *ngIf="!loading; else loadingTpl">
+  <header class="header">
+    <a [routerLink]="['/shop', shopId]" class="back-btn">← Back</a>
+    <div class="header-center">
+      <h1 class="shop-name">{{ shop?.name }}</h1>
+      <span class="sub">Product Catalogue</span>
+    </div>
+    <button class="add-btn" (click)="showAddForm = !showAddForm">
+      {{ showAddForm ? "Cancel" : "+ Add Product" }}
+    </button>
+  </header>
+
+  <div class="content">
+    <!-- Add product form -->
+    <div class="form-card" *ngIf="showAddForm">
+      <h2 class="form-title">New Product</h2>
+      <div class="form-grid">
+        <div class="field">
+          <label>Product name</label>
+          <input
+            type="text"
+            [(ngModel)]="newProduct.name"
+            placeholder="e.g. Paracetamol"
+          />
+        </div>
+        <div class="field">
+          <label>Unit</label>
+          <select [(ngModel)]="newProduct.unit">
+            <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Cost price (₦)</label>
+          <input
+            type="number"
+            [(ngModel)]="newProduct.cost_price"
+            placeholder="0"
+            min="0"
+          />
+        </div>
+        <div class="field">
+          <label>Selling price (₦)</label>
+          <input
+            type="number"
+            [(ngModel)]="newProduct.selling_price"
+            placeholder="0"
+            min="0"
+          />
+        </div>
+        <div class="field">
+          <label>Low stock alert threshold</label>
+          <input
+            type="number"
+            [(ngModel)]="newProduct.low_stock_threshold"
+            placeholder="10"
+            min="1"
+          />
+        </div>
+      </div>
+      <div class="form-actions">
+        <button
+          class="btn-primary"
+          (click)="addProduct()"
+          [disabled]="saving || !newProduct.name.trim()"
+        >
+          {{ saving ? "Saving..." : "Add Product" }}
+        </button>
+        <button class="btn-ghost" (click)="showAddForm = false">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Products list -->
+    <div class="products-list" *ngIf="products.length > 0; else noProducts">
+      <div class="product-item" *ngFor="let product of products">
+        <!-- View mode -->
+        <ng-container *ngIf="editingId !== product.id">
+          <div class="product-main">
+            <div class="product-info">
+              <span class="product-name">{{ product.name }}</span>
+              <span class="product-unit">per {{ product.unit }}</span>
+            </div>
+            <div class="product-stats">
+              <div class="stat">
+                <span class="stat-label">Stock</span>
+                <div class="stock-edit">
+                  <input
+                    type="number"
+                    class="stock-input"
+                    [value]="getStock(product)"
+                    (input)="
+                      stockEditing[product.id] = +$any($event.target).value
+                    "
+                    min="0"
+                  />
+                  <button
+                    class="stock-save"
+                    (click)="saveStock(product.id)"
+                    [disabled]="stockSaving[product.id]"
+                  >
+                    {{ stockSaving[product.id] ? "..." : "Set" }}
+                  </button>
+                </div>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Selling</span>
+                <span class="stat-value success"
+                  >₦{{ product.selling_price | number: "1.0-0" }}</span
+                >
+              </div>
+              <div class="stat">
+                <span class="stat-label">Margin</span>
+                <span class="stat-value">{{ productMargin(product) }}%</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Stock</span>
+                <span
+                  class="stat-value"
+                  [class.danger]="
+                    getStock(product) <= product.low_stock_threshold
+                  "
+                >
+                  {{ getStock(product) }}
+                </span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Alert at</span>
+                <span class="stat-value">{{
+                  product.low_stock_threshold
+                }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-actions">
+            <button class="action-btn" (click)="startEdit(product)">
+              Edit
+            </button>
+            <button
+              class="action-btn danger"
+              (click)="deleteProduct(product.id)"
+              [disabled]="deleting[product.id]"
+            >
+              {{ deleting[product.id] ? "..." : "Delete" }}
+            </button>
+          </div>
+        </ng-container>
+
+        <!-- Edit mode -->
+        <ng-container *ngIf="editingId === product.id">
+          <div class="edit-form">
+            <div class="form-grid">
+              <div class="field">
+                <label>Product name</label>
+                <input type="text" [(ngModel)]="editProduct.name" />
+              </div>
+              <div class="field">
+                <label>Unit</label>
+                <select [(ngModel)]="editProduct.unit">
+                  <option *ngFor="let u of units" [value]="u">{{ u }}</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Cost price (₦)</label>
+                <input
+                  type="number"
+                  [(ngModel)]="editProduct.cost_price"
+                  min="0"
+                />
+              </div>
+              <div class="field">
+                <label>Selling price (₦)</label>
+                <input
+                  type="number"
+                  [(ngModel)]="editProduct.selling_price"
+                  min="0"
+                />
+              </div>
+              <div class="field">
+                <label>Low stock threshold</label>
+                <input
+                  type="number"
+                  [(ngModel)]="editProduct.low_stock_threshold"
+                  min="1"
+                />
+              </div>
+            </div>
+            <div class="margin-preview" *ngIf="editProduct.selling_price > 0">
+              Margin: <strong>{{ margin }}%</strong>
+              &nbsp;·&nbsp; Profit per unit:
+              <strong
+                >₦{{
+                  editProduct.selling_price - editProduct.cost_price
+                    | number: "1.0-0"
+                }}</strong
+              >
+            </div>
+            <div class="form-actions">
+              <button
+                class="btn-primary"
+                (click)="saveEdit()"
+                [disabled]="saving"
+              >
+                {{ saving ? "Saving..." : "Save Changes" }}
+              </button>
+              <button class="btn-ghost" (click)="cancelEdit()">Cancel</button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <ng-template #noProducts>
+      <div class="empty">
+        <p>No products in catalogue yet.</p>
+        <p>Click "Add Product" to get started.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="loading">Loading...</div>
+</ng-template>

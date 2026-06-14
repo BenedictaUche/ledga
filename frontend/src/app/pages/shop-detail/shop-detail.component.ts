@@ -23,6 +23,8 @@ export class ShopDetailComponent implements OnInit {
   message = '';
   sendResult: any = null;
   activeTab: 'transactions' | 'credit' = 'transactions';
+  closingDay = false;
+  dayClosedSummary: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,6 +64,20 @@ export class ShopDetailComponent implements OnInit {
       this.sendResult = { status: 'error', message: 'Failed to send message' };
     } finally {
       this.sending = false;
+    }
+  }
+
+  async closeDay() {
+    if (this.closingDay) return;
+    this.closingDay = true;
+    try {
+      const result = await this.api.closeBusinessDay(this.shopId);
+      this.dayClosedSummary = result.summary;
+      await this.loadAll();
+    } catch (e) {
+      console.error('Failed to close day', e);
+    } finally {
+      this.closingDay = false;
     }
   }
 
